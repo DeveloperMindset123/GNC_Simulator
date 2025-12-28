@@ -24,9 +24,11 @@ A production-quality, educational C++ simulator for learning **Guidance, Navigat
 
 Watch the GNC simulator tracking a circular trajectory in real-time with SDL2 visualization:
 
-https://github.com/DeveloperMindset123/GNC_Simulator/assets/demo/2d_vehicles_gnc_demo_video.mp4
+<video src="https://github.com/DeveloperMindset123/GNC_Simulator/raw/main/demo/2d_vehicles_gnc_demo_video.mp4" controls width="100%" max-width="800px">
+  Your browser does not support the video tag. <a href="./demo/2d_vehicles_gnc_demo_video.mp4">Download the video</a>
+</video>
 
-> **Alternative:** View the video directly: [2d_vehicles_gnc_demo_video.mp4](./demo/2d_vehicles_gnc_demo_video.mp4)
+> **Note:** If the video doesn't play above, [**download it here**](https://github.com/DeveloperMindset123/GNC_Simulator/raw/main/demo/2d_vehicles_gnc_demo_video.mp4) (8.7 MB) or view in the [`demo/`](./demo/) folder.
 
 ### Performance Analysis
 
