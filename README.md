@@ -18,6 +18,36 @@ A production-quality, educational C++ simulator for learning **Guidance, Navigat
 
 ---
 
+## Demo
+
+### Video: Simulator in Action
+
+Watch the GNC simulator tracking a circular trajectory in real-time with SDL2 visualization:
+
+https://github.com/DeveloperMindset123/GNC_Simulator/assets/YOUR_USER_ID/2d_vehicles_gnc_demo_video.webm
+
+> **Note:** If the video doesn't display above, you can view it directly in the [`demo/`](./demo/2d_vehicles_gnc_demo_video.webm) folder.
+
+### Performance Analysis
+
+**9-Panel Visualization** showing comprehensive tracking metrics from a 38-second circle trajectory simulation:
+
+![GNC Simulator Performance Analysis](./demo/simulation_analysis.png)
+
+**Key Observations:**
+- **2D Trajectory (Top Left):** Vehicle closely follows the reference circle after initial transient
+- **Position Error (Top Center):** Periodic oscillation settling to ~2.5m mean error
+- **Velocity Tracking (Top Right):** Smooth acceleration from 0→5 m/s with excellent tracking
+- **Velocity Error (Middle Left):** Near-zero steady-state error (0.001 m/s mean)
+- **Heading Tracking (Middle Center):** Continuous angular progression matching reference
+- **Acceleration Command (Bottom Left):** Saturates at +5 m/s² during initial acceleration, then stabilizes
+- **Steering Command (Bottom Center):** Steady ~15° (0.26 rad) for circular motion
+- **Error Distribution (Bottom Right):** Most errors concentrated around 2-3m range
+
+**Analysis Script:** Run `python3 analyze_results.py` on any CSV log to generate similar visualizations.
+
+---
+
 ## System Requirements
 
 - **Platform**: NVIDIA Jetson Orin Nano, or any Ubuntu 22.04/20.04 system
@@ -303,19 +333,79 @@ During sharp turns, heading error is large for extended periods. Integral windup
 
 ## Data Analysis
 
-### Loading Logs in Python
+### Automated Analysis Script
+
+The included `analyze_results.py` script automatically computes performance metrics and generates comprehensive visualizations:
+
+```bash
+# Analyze most recent simulation
+python3 analyze_results.py
+
+# Analyze specific CSV file
+python3 analyze_results.py build/logs/gnc_sim_20250127_143022.csv
+
+# Show interactive plots
+python3 analyze_results.py --show
+```
+
+**Generated Outputs:**
+- **9-panel visualization PNG** showing:
+  - 2D trajectory (reference vs actual)
+  - Position, velocity, and heading errors over time
+  - Control commands (acceleration, steering)
+  - Error distribution histograms
+- **Console metrics** including:
+  - RMS, mean, and max errors for position, velocity, heading
+  - Control effort statistics
+  - Simulation frequency and duration
+
+**Sample Output:**
+```
+============================================================
+GNC SIMULATOR PERFORMANCE METRICS
+============================================================
+
+--- Position Tracking ---
+  RMS Error:  3.0150 m
+  Mean Error: 2.5499 m
+  Max Error:  9.9998 m
+
+--- Velocity Tracking ---
+  RMS Error:  0.4939 m/s
+  Mean Error: 0.0013 m/s
+  Max Error:  4.9500 m/s
+
+--- Heading Tracking ---
+  RMS Error:  0.3809 rad (21.82°)
+
+--- Simulation Stats ---
+  Duration:   38.28 s
+  Samples:    3829
+  Frequency:  100.0 Hz
+============================================================
+```
+
+**Note:** High initial errors are expected during transient acceleration from 0→5 m/s. Steady-state performance is significantly better.
+
+### Manual Analysis in Python
+
+For custom analysis, load the CSV directly:
 
 ```python
-import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 
 # Load CSV log
-df = pd.read_csv('logs/gnc_sim_20250127_143022.csv')
+data = np.genfromtxt('build/logs/gnc_sim_20250127_143022.csv', delimiter=',', skip_header=1)
+
+# Extract columns (see CSV header for indices)
+timestamp, x, y = data[:, 0], data[:, 1], data[:, 2]
+ref_x, ref_y = data[:, 5], data[:, 6]
 
 # Plot position
 plt.figure(figsize=(10, 5))
-plt.plot(df['ref_x'], df['ref_y'], 'b-', label='Reference', linewidth=2)
-plt.plot(df['x'], df['y'], 'r--', label='Actual', linewidth=1)
+plt.plot(ref_x, ref_y, 'b-', label='Reference', linewidth=2)
+plt.plot(x, y, 'r--', label='Actual', linewidth=1)
 plt.xlabel('X [m]')
 plt.ylabel('Y [m]')
 plt.title('Trajectory Tracking')
@@ -325,12 +415,12 @@ plt.grid(True)
 plt.show()
 
 # Compute position error
-df['pos_error'] = ((df['ref_x'] - df['x'])**2 + (df['ref_y'] - df['y'])**2)**0.5
+pos_error = np.sqrt((ref_x - x)**2 + (ref_y - y)**2)
 
 # Statistics
-print(f"Mean position error: {df['pos_error'].mean():.4f} m")
-print(f"Max position error: {df['pos_error'].max():.4f} m")
-print(f"RMS position error: {(df['pos_error']**2).mean()**0.5:.4f} m")
+print(f"Mean position error: {pos_error.mean():.4f} m")
+print(f"Max position error: {pos_error.max():.4f} m")
+print(f"RMS position error: {np.sqrt(np.mean(pos_error**2)):.4f} m")
 ```
 
 ### Performance Metrics
