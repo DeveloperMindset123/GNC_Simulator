@@ -20,15 +20,22 @@ A production-quality, educational C++ simulator for learning **Guidance, Navigat
 
 ## Demo
 
-### Video: Simulator in Action
+### Simulator in Action
 
-Watch the GNC simulator tracking a circular trajectory in real-time with SDL2 visualization:
+> **⚠️ Note:** Due to the large file size of the demo video (8.7 MB), I have included screenshots of the simulator output instead. The full video is available for download in the [`demo/`](./demo/2d_vehicles_gnc_demo_video.mp4) folder if you wish to view the complete simulation.
 
-<video src="https://github.com/DeveloperMindset123/GNC_Simulator/raw/main/demo/2d_vehicles_gnc_demo_video.mp4" controls width="100%" max-width="800px">
-  Your browser does not support the video tag. <a href="./demo/2d_vehicles_gnc_demo_video.mp4">Download the video</a>
-</video>
+**Real-time SDL2 Visualization** showing different trajectory types with live console output:
 
-> **Note:** If the video doesn't play above, [**download it here**](https://github.com/DeveloperMindset123/GNC_Simulator/raw/main/demo/2d_vehicles_gnc_demo_video.mp4) (8.7 MB) or view in the [`demo/`](./demo/) folder.
+**Circle Trajectory:**
+![GNC Simulator - Circle Trajectory](./demo/GNC_Circle_Output.png)
+
+**Figure-8 Trajectory:**
+![GNC Simulator - Figure-8 Trajectory](./demo/GNC_Figure8.png)
+
+**Straight Line Trajectory:**
+![GNC Simulator - Straight Line](./demo/GNC_Straight_Output.png)
+
+*Screenshots show the simulator tracking various trajectories at 5 m/s with real-time position error, velocity error, and heading error displayed in the terminal.*
 
 ### Performance Analysis
 
