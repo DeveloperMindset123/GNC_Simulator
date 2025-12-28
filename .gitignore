@@ -1,0 +1,89 @@
+# Build directories
+build/
+cmake-build-*/
+
+# Generated executables
+gnc_sim
+track_trajectory
+test_bicycle_model
+test_pid_controller
+*.exe
+*.out
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+CTestTestfile.cmake
+Makefile
+*.cmake
+
+# Libraries
+*.a
+*.so
+*.dylib
+*.lib
+*.dll
+
+# Object files
+*.o
+*.obj
+*.slo
+*.lo
+
+# Compiled Static libraries
+*.lai
+*.la
+
+# Log files (data output from simulations)
+logs/
+*.csv
+
+# IDE specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Python cache (if adding Python analysis scripts)
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Documentation build artifacts (if using Doxygen)
+docs/html/
+docs/latex/
+*.doxygen
+
+# Educational subdirectory READMEs (implementation details)
+src/*/README.md
+LINKEDIN_SHOWCASE.md
+
+# Temporary files
+*.tmp
+*.bak
+*.log
+
+# OS generated files
+Thumbs.db
+.directory
+
+# Backup files
+*~
+*.orig
+
+# Core dumps
+core
+*.core
+
+# Profiling data
+*.prof
+gmon.out
+perf.data*
+cachegrind.out.*
+
+# Valgrind output
+valgrind*.log
